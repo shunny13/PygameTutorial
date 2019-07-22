@@ -1,4 +1,6 @@
 import pygame
+import player
+from animations import *
 # Initialisation
 pygame.init()
 
@@ -15,47 +17,10 @@ pygame.display.set_caption("Learning Pygame")
 # Getting the clock in order to fix the FPS
 clock = pygame.time.Clock()
 
-# The Player object
-
-
-class Player(object):
-    def __init__(self, x, y, width, height, vel):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.vel = vel
-        self.isJump = False
-        self.jumpCount = 10
-        self.left = False
-        self.right = False
-        self.walkCount = 0
-
-    def draw(self, win):
-        if self.walkCount+1 >= 27:
-            self.walkCount = 0
-        if self.left:
-            win.blit(walkLeft[self.walkCount//3], (self.x, self.y))
-            self.walkCount += 1
-        elif self.right:
-            win.blit(walkRight[self.walkCount//3], (self.x, self.y))
-            self.walkCount += 1
-        else:
-            win.blit(char, (self.x, self.y))
-
-
-# THE SPRITE / ANIMATION PART #
-walkRight = [pygame.image.load('assets/R1.png'), pygame.image.load('assets/R2.png'), pygame.image.load('assets/R3.png'), pygame.image.load('assets/R4.png'), pygame.image.load(
-    'assets/R5.png'), pygame.image.load('assets/R6.png'), pygame.image.load('assets/R7.png'), pygame.image.load('assets/R8.png'), pygame.image.load('assets/R9.png')]
-walkLeft = [pygame.image.load('assets/L1.png'), pygame.image.load('assets/L2.png'), pygame.image.load('assets/L3.png'), pygame.image.load('assets/L4.png'), pygame.image.load(
-    'assets/L5.png'), pygame.image.load('assets/L6.png'), pygame.image.load('assets/L7.png'), pygame.image.load('assets/L8.png'), pygame.image.load('assets/L9.png')]
-bg = pygame.image.load('assets/bg.jpg')
-char = pygame.image.load('assets/standing.png')
-
 
 # Initialise the player and the start of the run
 run = True
-player = Player(300, 410, 64, 64, 5)
+player = player.Player(300, 410, 64, 64, 5)
 
 
 # The refresh window part
