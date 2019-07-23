@@ -25,6 +25,7 @@ run = True
 player = player.Player(300, 410, 64, 64, 5)
 bullets = []
 goblin = ennemy.Ennemy(16, 410, 64, 64, 450, 6)
+shootLoop = 0  # not to spam the bullets
 # The refresh window part
 
 
@@ -40,14 +41,20 @@ def redrawGameWindow():
 # Beggining the loop
 while run:
     clock.tick(27)  # FPS
+
+    if shootLoop > 0:
+        shootLoop += 1
+    if shootLoop > 10:
+        shootLoop = 0
+
     for event in pygame.event.get():  # Stop the program if we quit
         if event.type == pygame.QUIT:
             run = False
    # bullets mouvement
     for bullet in bullets:
-        if bullet.y-bullet.radius < goblin.hitbox[1]+goblin.hitbox[3] and bullet.y + bullet.radius > goblin.hitbox[1]:
-            if bullet.x + bullet.radius > goblin.hitbox[0] and bullet.x-bullet.radius < goblin.hitbox[0]+goblin.hitbox[2]:
-                goblin.hit()
+        if bullet.hits(goblin):
+            goblin.hit()
+            bullets.pop(bullets.index(bullet))
         if bullet.x < game_w and bullet.x > 0:
             bullet.x += bullet.vel
         else:
@@ -59,7 +66,7 @@ while run:
     if keys[pygame.K_ESCAPE]:
         run = False  # Stop the run if we press Escape
 
-    if keys[pygame.K_SPACE]:
+    if keys[pygame.K_SPACE] and shootLoop == 0:
         if player.left:
             facing = -1
         else:
@@ -72,6 +79,7 @@ while run:
                 (0, 0, 0),
                 facing
             ))
+        shootLoop = 1
 
     if keys[pygame.K_LEFT] and player.x >= player.vel:
         player.x -= player.vel
@@ -95,10 +103,7 @@ while run:
         #     y+=vel
         if keys[pygame.K_UP]:
             player.isJump = True
-            player.left = False
-            player.right = False
             player.walkCount = 0
-            print(player.right)
     else:
         if player.jumpCount >= -10:
             neg = 1
@@ -109,7 +114,6 @@ while run:
         else:
             player.isJump = False
             player.jumpCount = 10
-
     redrawGameWindow()
 
 

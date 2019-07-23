@@ -29,7 +29,11 @@ class Player(object):
         else:
             if self.right:
                 win.blit(walkRight[0], (self.x, self.y))
-            else:
+            elif self.left:
                 win.blit(walkLeft[0], (self.x, self.y))
+            # When the game begins the first shot is right so making him face right
+            else:
+                win.blit(walkRight[0], (self.x, self.y))
+
         self.hitbox = (self.x+20, self.y+15, 25, 45)
         pygame.draw.rect(win, (255, 0, 0), self.hitbox, 1)
