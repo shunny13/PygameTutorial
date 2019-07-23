@@ -45,11 +45,15 @@ while run:
             run = False
    # bullets mouvement
     for bullet in bullets:
+        if bullet.y-bullet.radius < goblin.hitbox[1]+goblin.hitbox[3] and bullet.y + bullet.radius > goblin.hitbox[1]:
+            if bullet.x + bullet.radius > goblin.hitbox[0] and bullet.x-bullet.radius < goblin.hitbox[0]+goblin.hitbox[2]:
+                goblin.hit()
         if bullet.x < game_w and bullet.x > 0:
             bullet.x += bullet.vel
         else:
             bullets.pop(bullets.index(bullet))
 
+# -----------------------------------------------
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_ESCAPE]:
@@ -94,6 +98,7 @@ while run:
             player.left = False
             player.right = False
             player.walkCount = 0
+            print(player.right)
     else:
         if player.jumpCount >= -10:
             neg = 1
