@@ -11,4 +11,4 @@ class Projectile(object):
         self.vel = 8 * facing
 
     def draw(self, win):
-        pygame.draw.circle(win, self.color, (self.x, self.y), self.radius)
+        pygame.draw.circle(win, self.color, (int(self.x), int(self.y)), self.radius)

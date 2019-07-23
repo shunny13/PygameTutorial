@@ -2,6 +2,7 @@ import pygame
 import player
 import projectile
 from animations import *
+import ennemy
 # Initialisation
 pygame.init()
 
@@ -23,13 +24,14 @@ clock = pygame.time.Clock()
 run = True
 player = player.Player(300, 410, 64, 64, 5)
 bullets = []
-
+goblin = ennemy.Ennemy(16, 410, 64, 64, 450, 6)
 # The refresh window part
 
 
 def redrawGameWindow():
     win.blit(bg, (0, 0))
     player.draw(win)
+    goblin.draw(win)
     for bullet in bullets:
         bullet.draw(win)
     pygame.display.update()
@@ -81,6 +83,7 @@ while run:
     else:
         player.standing = True
         player.walkCount = 0
+
     if not(player.isJump):
         # if keys[pygame.K_UP] and  y>=vel :        WE DON'T NEED TO MOVE UP AND DOWN ANYMORE
         #     y-=vel                                            SINCE IS LIKE A PLATFORM GAME
