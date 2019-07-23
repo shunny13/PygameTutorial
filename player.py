@@ -44,4 +44,4 @@ class Player(object):
         self.hitx = self.x+20
         self.hity = self.y+15
         self.hitbox = (self.x+20, self.y+15, 25, 45)
-        pygame.draw.rect(win, (255, 0, 0), self.hitbox, 1)
+        #pygame.draw.rect(win, (255, 0, 0), self.hitbox, 1)

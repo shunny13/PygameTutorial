@@ -3,6 +3,7 @@ import player
 import projectile
 from animations import *
 import ennemy
+from time import *
 # Initialisation
 pygame.init()
 
@@ -19,6 +20,15 @@ pygame.display.set_caption("Learning Pygame")
 # Getting the clock in order to fix the FPS
 clock = pygame.time.Clock()
 
+bulletSound = pygame.mixer.Sound('sounds/bullet.wav')
+#hitSound = pygame.mixer.Sound('sounds/hit.wav')
+
+#music = pygame.mixer.music.load('sounds/music.mp3')
+# pygame.mixer.music.play(-1)
+# pygame.mixer.music.load('music.mp3')
+# pygame.mixer.music.play()
+# time.sleep(2)
+# pygame.mixer.music.stop()
 
 # Initialise the player and the start of the run
 run = True
@@ -27,11 +37,15 @@ bullets = []
 goblin = ennemy.Ennemy(16, 410, 64, 64, 450, 6)
 shootLoop = 0  # not to spam the bullets
 biteLoop = 0  # not to get spammed by zombies
+score = 0
+font = pygame.font.SysFont('comicsans', 30, True)
 # The refresh window part
 
 
 def redrawGameWindow():
     win.blit(bg, (0, 0))
+    text = font.render("Score : "+str(score), 1, (0, 0, 0))
+    win.blit(text, (390, 10))
     player.draw(win)
     goblin.draw(win)
     for bullet in bullets:
@@ -64,6 +78,8 @@ while run:
     for bullet in bullets:
         if bullet.hits(goblin):
             goblin.hit()
+            # hitSound.play()
+            score += 1
             bullets.pop(bullets.index(bullet))
         if bullet.x < game_w and bullet.x > 0:
             bullet.x += bullet.vel
@@ -77,6 +93,7 @@ while run:
         run = False  # Stop the run if we press Escape
 
     if keys[pygame.K_SPACE] and shootLoop == 0:
+
         if player.left:
             facing = -1
         else:
@@ -90,6 +107,7 @@ while run:
                 facing
             ))
         shootLoop = 1
+        bulletSound.play()
 
     if keys[pygame.K_LEFT] and player.x >= player.vel:
         player.x -= player.vel
