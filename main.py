@@ -22,10 +22,11 @@ clock = pygame.time.Clock()
 
 # Initialise the player and the start of the run
 run = True
-player = player.Player(300, 410, 64, 64, 5)
+player = player.Player(300, 405, 64, 64, 5)
 bullets = []
 goblin = ennemy.Ennemy(16, 410, 64, 64, 450, 6)
 shootLoop = 0  # not to spam the bullets
+biteLoop = 0  # not to get spammed by zombies
 # The refresh window part
 
 
@@ -51,6 +52,15 @@ while run:
         if event.type == pygame.QUIT:
             run = False
    # bullets mouvement
+    if biteLoop > 0:
+        biteLoop += 1
+    if biteLoop > 20:
+        biteLoop = 0
+
+    if goblin.attacks(player) and biteLoop == 0:
+        goblin.bite()
+        biteLoop = 1
+
     for bullet in bullets:
         if bullet.hits(goblin):
             goblin.hit()

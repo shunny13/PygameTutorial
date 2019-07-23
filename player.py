@@ -14,7 +14,13 @@ class Player(object):
         self.right = False
         self.walkCount = 0
         self.standing = True
-        self.hitbox = (self.x+20, self.y+15, 25, 45)
+
+        self.hitx = self.x+20
+        self.hity = self.y+15
+        self.hitw = 25
+        self.hith = 45
+
+        self.hitbox = (self.hitx, self.hity, self.hitw, self.hith)
 
     def draw(self, win):
         if self.walkCount+1 >= 27:
@@ -35,5 +41,7 @@ class Player(object):
             else:
                 win.blit(walkRight[0], (self.x, self.y))
 
+        self.hitx = self.x+20
+        self.hity = self.y+15
         self.hitbox = (self.x+20, self.y+15, 25, 45)
         pygame.draw.rect(win, (255, 0, 0), self.hitbox, 1)

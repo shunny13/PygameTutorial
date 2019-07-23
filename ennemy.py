@@ -1,4 +1,5 @@
 from animations import *
+import collisions
 
 
 class Ennemy(object):
@@ -25,7 +26,13 @@ class Ennemy(object):
         self.path = [self.x, self.end]
         self.walkCount = 0
         self.vel = vel
-        self.hitbox = (self.x+17, self.y+2, 31, 57)
+
+        self.hitx = self.x+17
+        self.hity = self.y+2
+        self.hitw = 31
+        self.hith = 57
+
+        self.hitbox = (self.hitx, self.hity, self.hitw, self.hith)
 
     def draw(self, win):
         self.move()
@@ -37,6 +44,8 @@ class Ennemy(object):
         else:
             win.blit(self.walkLeft[self.walkCount // 3], (self.x, self.y))
             self.walkCount += 1
+        self.hitx = self.x+17
+        self.hity = self.y+2
         self.hitbox = (self.x+17, self.y+2, 31, 57)
         pygame.draw.rect(win, (255, 0, 0), self.hitbox, 1)
 
@@ -56,3 +65,9 @@ class Ennemy(object):
 
     def hit(self):
         print("hit")
+
+    def attacks(self, player):
+        return (collisions.collides(self, player))
+
+    def bite(self):
+        print("BITE")
